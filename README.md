@@ -1,2 +1,2 @@
 # scriptable-random-cat
-scriptable widget
+Scriptable widget showing cat randomly
