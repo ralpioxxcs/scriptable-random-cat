@@ -4,7 +4,7 @@
 
 /* -----------------------------------------------
 Script      : randomCat.js
-Author      : ralpioxxcs@gmail.com
+Author      : ralpioxx@gmail.com
 Version     : 1.0.0
 Repository  : https://github.com/ralpioxxcs/scriptable-random-cat
 Description :
@@ -23,38 +23,6 @@ const colors = {
   cyan: "#8be9fd",
   purple: "#bd93f9",
   pink: "#ff79c6",
-};
-
-let catResult;
-let catImg, catImgLink, catBreeds, catDescrption;
-
-try {
-  catResult = await getRandomCat();
-
-  catImg = catResult.img;
-  catImgLink = catResult.link;
-  // catBreeds = catResult.breed;
-  // catDescrption = catResult.description;
-
-  console.log("success to load cat");
-
-} catch (err) {
-    errorLayout("failed to load image");
-}
-
-// initialize widget layout
-const createWidget = () => {
-  let widget = new ListWidget();
-  widget.backgroundImage = catImg;
-  widget.url = catImgLink;
-  widget.addSpacer();
-
-  let title = widget.addText("Meow 🐱");
-  title.font = Font.thinSystemFont(15);
-  title.textColor = Color.white();
-  title.leftAlignText();
-
-  return widget;
 };
 
 // get cat image & links
@@ -79,6 +47,41 @@ const getRandomCat = async () => {
     throw err;
   }
 };
+
+let catResult;
+let catImg, catImgLink, catBreeds, catDescrption;
+
+try {
+  catResult = await getRandomCat();
+
+  catImg = catResult.img;
+  catImgLink = catResult.link;
+  // catBreeds = catResult.breed;
+  // catDescrption = catResult.description;
+
+  console.log("success to load cat");
+} catch (err) {
+    errorLayout("failed to load image");
+}
+
+// initialize widget layout
+const createWidget = () => {
+  let widget = new ListWidget();
+  widget.backgroundImage = catImg;
+  widget.url = catImgLink;
+  widget.addSpacer();
+
+  let title = widget.addText("Meow 🐱");
+  title.font = Font.thinSystemFont(15);
+  title.textColor = Color.white();
+  title.leftAlignText();
+
+  let nextRefresh = Date.now() + 1000*60; // 1 minutes refresh
+  widget.refreshAfterDate = new Date(nextRefresh);
+
+  return widget;
+};
+
 
 const errorLayout = (message) => {
   let widget = new ListWidget();
